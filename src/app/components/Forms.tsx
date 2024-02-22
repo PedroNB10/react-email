@@ -46,22 +46,34 @@ export default function Forms({ SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY }: IProps) {
         }
 
 
-        setName('')
-        setEmail('')
-        setMessage('')
 
 
-        emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
-            .then((response) => {
-                console.log('SUCCESS!', response.status, response.text)
-                if (response.status === 200) {
-                    toast.success('Email enviado com sucesso!')
-                }
-            }, (err) => {
-                console.log('FAILED...', err)
-                toast.error('Erro ao enviar email')
+        try {
+            emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY)
+                .then((response) => {
+                    console.log('SUCCESS!', response.status, response.text)
+                    if (response.status === 200) {
+                        toast.success('Email enviado com sucesso!')
+                        setName('')
+                        setEmail('')
+                        setMessage('')
+                    }
 
-            })
+
+
+                }, (err) => {
+                    console.log('FAILED...', err)
+                    toast.error('Erro ao enviar email')
+
+                })
+
+        }
+
+        catch (err) {
+            console.log(err)
+            toast.error('Erro ao enviar email')
+        }
+
 
     }
 
